@@ -89,9 +89,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 pt-20 md:pt-28 md:px-10">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-10 pt-16 md:pt-28 overflow-hidden">
         <SectionTitle title="CERTIFICATE" sub="Sertifikat" />
-        <Reveal stagger className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal stagger className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 sm:gap-y-12">
           {certs.map((c, i) => (
             <CertificateCard key={c.title + c.date} cert={c} index={i} />
           ))}
