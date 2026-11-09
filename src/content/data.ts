@@ -17,6 +17,7 @@ import certFusionTech from "@/assets/certif/FusionTech.jpg";
 import certAMIKOM from "@/assets/certif/HackatonAMIKOM.png";
 import certSMK from "@/assets/certif/HackatonSMK.jpg";
 import certCHIPS from "@/assets/certif/CHIPS2025.jpg";
+import certTalenavi from "@/assets/certif/TalenaviIntern.png";
 import certMargaDi from "@/assets/certif/Marga_diCoffee.jpg";
 
 import coverNusaka from "@/assets/project-cover/nusaka.png";
@@ -254,6 +255,13 @@ const contentId: ContentData = {
       description: "Sertifikat Honorable Mention (Top 30%) ajang kompetisi lomba cerdas cermat bidang ilmu komputer dan teknologi informasi CHIPS 2025 yang diadakan oleh Universitas Katolik Parahyangan (UNPAR).",
     },
     {
+      title: "Intern Talenavi",
+      issuer: "PT DYNAMIC TALENTA NAVIGATOR",
+      date: "MAR 2026",
+      image: certTalenavi.src,
+      description: "Sertifikat pelaksanaan program magang di PT DYNAMIC TALENTA NAVIGATOR sebagai Frontend Developer.",
+    },
+    {
       title: "Coffe Marga_di Training",
       issuer: "at_marga_di",
       date: "OKT 2026",
@@ -474,6 +482,13 @@ const contentEn: ContentData = {
       date: "OCT 2025",
       image: certCHIPS.src,
       description: "Certificate for Top 30% in the computer science and information technology competition CHIPS 2025 organized by UNPAR.",
+    },
+       {
+      title: "Intern Talenavi",
+      issuer: "PT DYNAMIC TALENTA NAVIGATOR",
+      date: "MAR 2026",
+      image: certTalenavi.src,
+      description: "Certificate for intern in PT DYNAMIC TALENTA NAVIGATOR as a Frontend Developer.",
     },
     {
       title: "Coffe Marga_di Training",
