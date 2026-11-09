@@ -5,18 +5,23 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import type { NavItem, SocialLink } from "@/content/types";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "@/context/LanguageContext";
+import { getNav } from "@/lib/content";
 
-type HeaderProps = { brand: string; nav: NavItem[]; socials: SocialLink[] };
+type HeaderProps = { brand: string; nav?: NavItem[]; socials: SocialLink[] };
 
 const DRAWER_EDGE =
   "polygon(7% 0, 100% 0, 100% 100%, 0 100%, 3% 82%, 0 64%, 4% 46%, 1% 28%, 4% 12%)";
 
-export default function Header({ brand, nav, socials }: HeaderProps) {
+export default function Header({ brand, nav: initialNav, socials }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const root = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
   const isFirstRender = useRef(true);
+  const { locale } = useLanguage();
+  const nav = getNav(locale);
 
   useGSAP(
     () => {
@@ -100,12 +105,15 @@ export default function Header({ brand, nav, socials }: HeaderProps) {
   return (
     <div ref={root}>
       <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-paper/10 bg-ink/85 px-5 py-3 backdrop-blur-md md:px-10">
-        <Link
-          href="/"
-          className="hd-in font-display -rotate-2 bg-ink px-3 py-1 text-xl tracking-wider text-paper shadow-[3px_3px_0_var(--color-flame)] transition-transform hover:rotate-0"
-        >
-          {brand}
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="hd-in font-display -rotate-2 bg-ink px-3 py-1 text-xl tracking-wider text-paper shadow-[3px_3px_0_var(--color-flame)] transition-transform hover:rotate-0"
+          >
+            {brand}
+          </Link>
+          <LanguageSwitcher />
+        </div>
 
         <button
           onClick={() => setOpen(true)}

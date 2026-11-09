@@ -5,11 +5,15 @@ import { useRef, type CSSProperties } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { Lightning, Splat, Tape } from "./Deco";
 import type { Profile } from "@/content/types";
+import { useLanguage } from "@/context/LanguageContext";
+import { getSite } from "@/lib/content";
 
 type HeroProps = { profile: Profile; ctaTitle: string };
 
 export default function Hero({ profile, ctaTitle }: HeroProps) {
   const root = useRef<HTMLElement>(null);
+  const { locale } = useLanguage();
+  const site = getSite(locale);
 
   useGSAP(
     () => {
@@ -118,13 +122,13 @@ export default function Hero({ profile, ctaTitle }: HeroProps) {
               href="/projects"
               className="kv-cta cursor-pointer font-display -skew-x-12 bg-flame px-7 py-3 sm:px-9 tracking-widest text-ink shadow-[6px_6px_0_var(--color-ink)] transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[9px_9px_0_var(--color-ink)]"
             >
-              VIEW PROJECT
+              {site.viewProject}
             </Link>
             <Link
               href="/contact"
               className="kv-cta cursor-pointer font-display -skew-x-12 border-2 border-paper bg-ink px-7 py-3 sm:px-9 tracking-widest text-paper shadow-[6px_6px_0_var(--color-sun)] transition-[transform,background-color,color] duration-200 hover:-translate-y-1 hover:bg-paper hover:text-ink"
             >
-              CONTACT
+              {site.contactBtn}
             </Link>
           </div>
         </div>

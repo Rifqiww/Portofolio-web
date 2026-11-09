@@ -1,10 +1,17 @@
+"use client";
+
 import Link from "next/link";
-import type { CSSProperties } from "react";
-import type { NavItem, SocialLink } from "@/content/types";
+import type { SocialLink } from "@/content/types";
+import { useLanguage } from "@/context/LanguageContext";
+import { getNav, getSite } from "@/lib/content";
 
-type FooterProps = { nav: NavItem[]; socials: SocialLink[]; credit: string; name: string };
+type FooterProps = { socials: SocialLink[]; credit: string; name: string };
 
-export default function Footer({ nav, socials, credit, name }: FooterProps) {
+export default function Footer({ socials, credit }: FooterProps) {
+  const { locale } = useLanguage();
+  const nav = getNav(locale);
+  const site = getSite(locale);
+
   return (
     <footer className="torn-tb relative mt-10 overflow-hidden bg-coal">
       <div className="halftone pointer-events-none absolute inset-0 text-paper/[0.04]" />
@@ -41,7 +48,7 @@ export default function Footer({ nav, socials, credit, name }: FooterProps) {
           </ul>
         </div>
       </div>
-      <p className="relative pb-6 text-center text-xs text-paper/40">{credit}</p>
+      <p className="relative pb-6 text-center text-xs text-paper/40">{site.footerCredit || credit}</p>
     </footer>
   );
 }

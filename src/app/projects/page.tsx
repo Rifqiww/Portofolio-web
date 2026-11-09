@@ -1,15 +1,19 @@
-import type { Metadata } from "next";
+"use client";
+
 import SectionTitle from "@/components/SectionTitle";
 import ProjectGrid from "@/components/ProjectGrid";
-import { getProjects } from "@/lib/content";
-
-export const metadata: Metadata = { title: "Project" };
+import { useLanguage } from "@/context/LanguageContext";
+import { getProjects, getSectionTitles } from "@/lib/content";
 
 export default function ProjectsPage() {
+  const { locale } = useLanguage();
+  const projects = getProjects(locale);
+  const sectionTitles = getSectionTitles(locale);
+
   return (
     <div className="mx-auto max-w-6xl px-5 pt-24 sm:pt-28 md:pt-32 md:px-10">
-      <SectionTitle title="PROJECT" sub="Semua karya" />
-      <ProjectGrid projects={getProjects()} />
+      <SectionTitle title={sectionTitles.project.title} sub={sectionTitles.project.allSub} />
+      <ProjectGrid projects={projects} />
     </div>
   );
 }

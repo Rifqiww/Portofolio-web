@@ -4,6 +4,8 @@ import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Tape } from "./Deco";
 import type { Certificate } from "@/content/types";
+import { useLanguage } from "@/context/LanguageContext";
+import { getSite } from "@/lib/content";
 
 type CertificateCardProps = { cert: Certificate; index?: number };
 
@@ -13,6 +15,8 @@ const JAGS = ["jag-a", "jag-c", "jag-b", "jag-a"];
 export default function CertificateCard({ cert, index = 0 }: CertificateCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { locale } = useLanguage();
+  const site = getSite(locale);
 
   useEffect(() => {
     setMounted(true);
@@ -102,7 +106,7 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
                 />
               </svg>
               <span className="font-display relative z-10 mt-2 text-sm tracking-widest text-ink/70">
-                PREVIEW SERTIFIKAT
+                {site.previewUnavailable}
               </span>
             </div>
           )}
@@ -112,7 +116,7 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
           </span>
 
           <span className="pointer-events-none font-display absolute bottom-2 right-2 bg-sun px-2 py-0.5 text-[11px] tracking-wider text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100 shadow-[2px_2px_0_var(--color-ink)]">
-            KLIK UNTUK DETAIL ↗
+            {site.clickForDetail}
           </span>
         </div>
         <div className="my-3 border-t-2 border-dashed border-ink/30" />
@@ -183,7 +187,7 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
                       <div className="stripes absolute inset-0 text-ink/10" />
                       <div className="halftone absolute inset-0 text-ink/20" />
                       <span className="font-display relative z-10 text-base tracking-widest text-ink/60">
-                        PREVIEW BELUM TERSEDIA
+                        {site.previewUnavailable}
                       </span>
                     </div>
                   )}
@@ -196,7 +200,7 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
                         {cert.date}
                       </span>
                       <span className="font-display -rotate-2 border border-blood px-1.5 py-0.5 text-[10px] sm:text-xs font-bold tracking-widest text-blood">
-                        VERIFIED
+                        {site.verified}
                       </span>
                       <span className="text-[10px] sm:text-[11px] font-bold tracking-widest text-ink/50 uppercase">
                         CERTIFICATE #{String(index + 1).padStart(2, "0")}
@@ -221,11 +225,13 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
 
                   <div className="min-w-0">
                     <h4 className="text-[10px] sm:text-xs font-bold tracking-widest text-ink/50 uppercase">
-                      DETAIL & DESKRIPSI
+                      {site.detailDescription}
                     </h4>
                     <p className="mt-1 border border-ink/20 bg-paper/70 p-2 sm:p-4 text-xs sm:text-sm md:text-base leading-relaxed text-ink/85 break-words">
                       {cert.description ||
-                        "Sertifikat ini diperoleh atas partisipasi dan pencapaian kompetensi pada bidang terkait."}
+                        (locale === "en"
+                          ? "This certificate was awarded for active participation and demonstrated competence in the related field."
+                          : "Sertifikat ini diperoleh atas partisipasi dan pencapaian kompetensi pada bidang terkait.")}
                     </p>
                   </div>
 
@@ -237,7 +243,7 @@ export default function CertificateCard({ cert, index = 0 }: CertificateCardProp
                         rel="noopener noreferrer"
                         className="cursor-pointer font-display inline-block w-full -skew-x-12 bg-ink py-2 sm:py-2.5 text-center text-xs sm:text-sm tracking-widest text-paper shadow-[3px_3px_0_var(--color-flame)] sm:shadow-[4px_4px_0_var(--color-flame)] transition-all hover:bg-flame hover:text-ink"
                       >
-                        VERIFIKASI KREDENSIAL RESMI ↗
+                        {site.officialCredential}
                       </a>
                     </div>
                   )}

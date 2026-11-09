@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+"use client";
+
 import Reveal from "@/components/Reveal";
 import SectionTitle from "@/components/SectionTitle";
 import ContactForm from "@/components/ContactForm";
 import { Scribble, Tape } from "@/components/Deco";
-import { getProfile } from "@/lib/content";
-
-export const metadata: Metadata = { title: "Contact" };
+import { useLanguage } from "@/context/LanguageContext";
+import { getProfile, getSectionTitles } from "@/lib/content";
 
 export default function ContactPage() {
-  const profile = getProfile();
+  const { locale } = useLanguage();
+  const profile = getProfile(locale);
+  const sectionTitles = getSectionTitles(locale);
 
   return (
     <div className="mx-auto max-w-6xl px-5 pt-24 sm:pt-28 md:pt-32 md:px-10">
-      <SectionTitle title="CONTACT" sub="Mari berkolaborasi" />
+      <SectionTitle title={sectionTitles.contact.title} sub={sectionTitles.contact.sub} />
       <div className="grid items-start gap-12 sm:gap-16 md:grid-cols-2">
         <Reveal className="space-y-6 sm:space-y-8">
           <p className="text-base sm:text-lg leading-relaxed text-paper/85">{profile.shortBio}</p>

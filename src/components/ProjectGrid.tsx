@@ -4,11 +4,15 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import ProjectCard from "./ProjectCard";
 import type { Project } from "@/content/types";
+import { useLanguage } from "@/context/LanguageContext";
+import { getSite } from "@/lib/content";
 
 type ProjectGridProps = { projects: Project[]; tags?: string[] };
 
 export default function ProjectGrid({ projects }: ProjectGridProps) {
   const root = useRef<HTMLDivElement>(null);
+  const { locale } = useLanguage();
+  const site = getSite(locale);
 
   useGSAP(
     () => {
@@ -38,7 +42,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
           </div>
         ))}
       </div>
-      {projects.length === 0 && <p className="text-paper/50">Belum ada project.</p>}
+      {projects.length === 0 && <p className="text-paper/50">{site.emptyProjects}</p>}
     </div>
   );
 }

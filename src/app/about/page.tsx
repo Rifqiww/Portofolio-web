@@ -1,23 +1,37 @@
-import type { Metadata } from "next";
+"use client";
+
 import Reveal from "@/components/Reveal";
 import SectionTitle from "@/components/SectionTitle";
 import CertificateCard from "@/components/CertificateCard";
 import { Lightning, Splat, Tape } from "@/components/Deco";
-import { getCertificates, getProfile, getSkillGroups } from "@/lib/content";
+import { useLanguage } from "@/context/LanguageContext";
+import {
+  getCertificates,
+  getProfile,
+  getSectionTitles,
+  getSite,
+  getSkillGroups,
+} from "@/lib/content";
 
-export const metadata: Metadata = { title: "About" };
-
-const CHIP_COLORS = ["bg-flame text-ink", "bg-sun text-ink", "bg-paper text-ink", "bg-coal text-paper ring-1 ring-paper/30"];
+const CHIP_COLORS = [
+  "bg-flame text-ink",
+  "bg-sun text-ink",
+  "bg-paper text-ink",
+  "bg-coal text-paper ring-1 ring-paper/30",
+];
 
 export default function AboutPage() {
-  const profile = getProfile();
+  const { locale } = useLanguage();
+  const profile = getProfile(locale);
+  const site = getSite(locale);
   const groups = getSkillGroups();
-  const certs = getCertificates();
+  const certs = getCertificates(locale);
+  const sectionTitles = getSectionTitles(locale);
 
   return (
     <>
       <div className="mx-auto max-w-6xl px-5 pt-24 sm:pt-28 md:pt-32 md:px-10">
-        <SectionTitle title="ABOUT" sub="Tentang saya" />
+        <SectionTitle title={sectionTitles.about.title} sub={sectionTitles.about.sub} />
         <div className="grid items-center gap-12 sm:gap-16 md:grid-cols-[1fr_1.6fr]">
           <Reveal className="relative mx-auto w-full max-w-[270px] sm:max-w-xs">
             <Splat className="absolute -inset-8 text-flame" style={{ filter: "url(#rough)" }} />
@@ -56,7 +70,7 @@ export default function AboutPage() {
                 href={profile.resumeUrl}
                 className="cursor-pointer font-display inline-block -skew-x-12 bg-flame px-9 py-3 tracking-widest text-ink shadow-[6px_6px_0_var(--color-sun)] transition-transform hover:-translate-y-1"
               >
-                DOWNLOAD CV
+                {site.downloadCv}
               </a>
             )}
           </Reveal>
@@ -65,7 +79,7 @@ export default function AboutPage() {
 
       <section className="paper torn-tb relative mt-20 md:mt-32 px-5 pb-20 pt-16 md:pb-28 md:pt-24 md:px-10">
         <div className="mx-auto max-w-6xl">
-          <SectionTitle title="STACK" sub="Teknologi yang saya pakai" tone="light" />
+          <SectionTitle title={sectionTitles.stack.title} sub={sectionTitles.stack.sub} tone="light" />
           <div className="space-y-10 md:space-y-12">
             {groups.map((g) => (
               <Reveal key={g.category}>
@@ -89,8 +103,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-10 pt-16 md:pt-28 overflow-hidden">
-        <SectionTitle title="CERTIFICATE" sub="Sertifikat" />
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-10 pt-16 md:pt-28 overflow-hidden pb-10">
+        <SectionTitle title={sectionTitles.certificate.title} sub={sectionTitles.certificate.sub} />
         <Reveal stagger className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-8 sm:gap-y-12">
           {certs.map((c, i) => (
             <CertificateCard key={c.title + c.date} cert={c} index={i} />

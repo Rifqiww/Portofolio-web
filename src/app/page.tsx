@@ -1,23 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Reveal from "@/components/Reveal";
 import SectionTitle from "@/components/SectionTitle";
 import ProjectCard from "@/components/ProjectCard";
-import { Lightning, Tape } from "@/components/Deco";
+import { Tape } from "@/components/Deco";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   getFeaturedProjects,
   getFeatures,
   getProfile,
+  getSectionTitles,
   getSite,
   getSkillGroups,
 } from "@/lib/content";
 
 export default function HomePage() {
-  const profile = getProfile();
-  const site = getSite();
-  const features = getFeatures();
-  const featured = getFeaturedProjects().slice(0, 3);
+  const { locale } = useLanguage();
+  const profile = getProfile(locale);
+  const site = getSite(locale);
+  const features = getFeatures(locale);
+  const sectionTitles = getSectionTitles(locale);
+  const featured = getFeaturedProjects(locale).slice(0, 3);
   const stack = getSkillGroups().flatMap((g) => g.items.map((s) => s.name));
 
   return (
@@ -26,7 +32,7 @@ export default function HomePage() {
       <Marquee items={stack} />
 
       <section className="mx-auto max-w-6xl px-5 pt-20 md:px-10 md:pt-28">
-        <SectionTitle title="ABOUT" sub="Tentang saya"/>
+        <SectionTitle title={sectionTitles.about.title} sub={sectionTitles.about.sub} />
         <Reveal className="mb-14 max-w-2xl text-lg leading-relaxed text-paper/85">
           <span className="bg-sun px-1 font-semibold text-ink">{profile.shortBio.split(".")[0]}.</span>
           {profile.shortBio.split(".").slice(1).join(".")}
@@ -34,7 +40,7 @@ export default function HomePage() {
         <Reveal stagger className="grid gap-8 md:grid-cols-3">
           {features.map((f, i) => (
             <Link
-              key={f.title}
+              key={f.title + f.sub}
               href={f.href}
               style={{ rotate: `${[-2, 1.5, -1][i % 3]}deg` }}
               className="jag-a group relative flex aspect-[4/3] flex-col justify-end overflow-hidden bg-bone p-6 text-ink transition-transform duration-300 hover:rotate-0 hover:text-white ease-in-out"
@@ -50,7 +56,7 @@ export default function HomePage() {
 
       <section className="paper torn-tb relative mt-20 px-5 pb-28 pt-20 md:mt-28 md:px-10 md:pb-32 md:pt-24">
         <div className="mx-auto max-w-6xl">
-          <SectionTitle title="PROJECT" sub="Karya terpilih" tone="light" />
+          <SectionTitle title={sectionTitles.project.title} sub={sectionTitles.project.sub} tone="light" />
           <Reveal stagger className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p, i) => (
               <div key={p.slug} className="md:even:mt-10">
@@ -63,7 +69,7 @@ export default function HomePage() {
               href="/projects"
               className="cursor-pointer font-display inline-block -skew-x-12 bg-ink px-10 py-3 tracking-widest text-paper shadow-[6px_6px_0_var(--color-flame)] transition-[transform,background-color,color,box-shadow] duration-200 hover:-translate-y-1 hover:bg-flame hover:text-ink hover:shadow-[9px_9px_0_var(--color-ink)]"
             >
-              VIEW MORE
+              {site.viewMore}
             </Link>
           </div>
         </div>
@@ -78,7 +84,7 @@ export default function HomePage() {
             href="/contact"
             className="cursor-pointer font-display mt-8 inline-block -skew-x-12 bg-ink px-12 py-4 tracking-widest text-paper shadow-[7px_7px_0_var(--color-flame)] transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0_var(--color-flame)]"
           >
-            CONTACT ME
+            {site.ctaButton}
           </Link>
         </Reveal>
       </section>
