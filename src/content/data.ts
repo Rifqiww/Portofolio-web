@@ -46,7 +46,6 @@ export const skills: Skill[] = [
   { name: "PHP", category: "Backend" },
   { name: "Git", category: "Tools" },
   { name: "Figma", category: "Tools" },
-  { name: "Docker", category: "Tools" },
 ];
 
 const contentId: ContentData = {
